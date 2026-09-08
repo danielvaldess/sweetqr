@@ -10,16 +10,16 @@ HOST = "127.0.0.1"
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Sirve la app web SweetQR")
-    parser.add_argument("--host", default=HOST, help="IP donde escuchar (por defecto 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=PORT, help="Puerto (por defecto 8080)")
+    parser = argparse.ArgumentParser(description="Serve the SweetQR web app")
+    parser.add_argument("--host", default=HOST, help="Address to bind (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=PORT, help="Port (default: 8080)")
     args = parser.parse_args()
 
     handler = http.server.SimpleHTTPRequestHandler
     os.chdir(BASE_DIR)
 
     with socketserver.TCPServer((args.host, args.port), handler) as httpd:
-        print(f"SweetQR disponible en http://{args.host}:{args.port}")
+        print(f"SweetQR available at http://{args.host}:{args.port}")
         httpd.serve_forever()
 
 

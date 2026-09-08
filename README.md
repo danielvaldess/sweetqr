@@ -1,28 +1,34 @@
 # SweetQR
 
-Generador de códigos QR web y de terminal, en español. Sin servidor de por medio: el QR se genera al instante en tu navegador.
+A QR code generator (web + CLI) in English, with no backend: the QR is generated instantly in your browser.
 
 ## Web app
 
-Todo el código es estático (HTML + JS + la librería `qrcodejs` incluida en `vendor/`). Funciona con cualquier servidor de archivos.
+The whole app is static (HTML + JS + the `qrcodejs` library bundled in `vendor/`). It works with any static file server.
 
-### Probar en local
+### Run locally
 
 ```bash
-python3 server.py              # abre http://127.0.0.1:8080
-# o sin instalar nada:
+python3 server.py              # open http://127.0.0.1:8080
+# or with zero installs:
 python3 -m http.server 8080
 ```
 
-### Características
+### Features
 
-- Vista previa en vivo mientras escribes la URL.
-- Modo URL (agrega `https://` solo) o texto libre.
-- Niveles de corrección de error (L / M / Q / H).
-- Colores de fondo y de QR personalizables, con botón para intercambiarlos.
-- Tamaño ajustable y descarga en PNG de 1024 px.
-- Copia el QR al portapapeles.
-- `noindex` para que los buscadores no lo indexen.
+- Live QR preview while you type.
+- URL mode (auto-adds `https://` if missing) or free text.
+- Error correction levels (L / M / Q / H).
+- Custom background and QR colors, with a swap button.
+- Adjustable size and high-res PNG download (1024 px).
+- Copy the QR to the clipboard.
+- `noindex` + `robots.txt` so search engines never index it.
+
+### Live demo
+
+The app is published for free on GitHub Pages:
+
+**https://danielvaldess.github.io/sweetqr/**
 
 ## CLI (terminal)
 
@@ -31,25 +37,25 @@ python3 -m pip install qrcode pillow
 python3 cli/sweetqr.py
 ```
 
-Los archivos generados se guardan en `generados/`.
+Generated files are saved in `generados/`.
 
-## Desplegar en SweetCode con cloudflared
+## Deploy with cloudflared
 
-Dentro de la red/VPN de SweetCode, en el servidor:
+Inside the SweetCode network/VPN, on the server:
 
 ```bash
-# 1) Clona o copia el proyecto
-git clone https://github.com/TU_USUARIO/sweetqr.git /opt/sweetqr
+# 1) Clone or copy the project
+git clone https://github.com/danielvaldess/sweetqr.git /opt/sweetqr
 cd /opt/sweetqr
 
-# 2) Sirve la app solo en localhost (puerto 8080)
+# 2) Serve the app on localhost only (port 8080)
 nohup python3 server.py --host 127.0.0.1 --port 8080 &
 
-# 3) Túnel cloudflared hacia localhost:8080 (nombrado, sin indexación)
+# 3) cloudflared tunnel to localhost:8080 (named, no indexing)
 cloudflared tunnel run --url http://127.0.0.1:8080
 ```
 
-Para un hostname fijo y no indexable, usa un túnel con nombre:
+For a fixed, non-indexable hostname, use a named tunnel:
 
 ```bash
 cloudflared tunnel create sweetqr
@@ -57,7 +63,7 @@ cloudflared tunnel route dns sweetqr sweetqr.sweetcode.studio
 cloudflared tunnel run sweetqr
 ```
 
-con un `config.yml` como:
+with a `config.yml` like:
 
 ```yaml
 tunnel: sweetqr
@@ -68,18 +74,27 @@ ingress:
   - service: http_status:404
 ```
 
-Solo quien tenga el enlace podrá usarla; el HTML lleva `noindex, nofollow`.
+Only people with the link can use it; the HTML carries `noindex, nofollow`.
 
-## Estructura
+## Security & privacy
+
+- No tracking, no analytics, no data leaves the browser. The QR is generated client-side.
+- No external CDNs: the QR library is vendored locally (`vendor/`).
+- The app binds to `127.0.0.1` by default; expose it only through a tunnel.
+
+## Structure
 
 ```
 sweetqr/
-├── index.html        # app web gráfica
-├── server.py         # servidor estático simple
+├── index.html        # graphical web app
+├── server.py         # minimal static server
+├── favicon.svg       # cherry favicon
+├── robots.txt        # blocks search engines
 ├── vendor/
-│   └── qrcode.min.js # librería QR (qrcodejs)
+│   ├── qrcode.min.js # QR library (qrcodejs, MIT)
+│   └── LICENSE       # qrcodejs license
 └── cli/
-    └── sweetqr.py    # versión terminal
+    └── sweetqr.py    # terminal version
 ```
 
-Hecho con ♥ en SweetCode.
+Made with ♥ at SweetCode.
