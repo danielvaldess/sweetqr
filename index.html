@@ -94,46 +94,6 @@
     align-items: start;
   }
 
-  @media (max-width: 860px) {
-    .grid { grid-template-columns: 1fr; }
-    .preview { min-height: 0; order: -1; }
-  }
-
-  @media (max-width: 520px) {
-    body { padding: 16px 12px; justify-content: flex-start; }
-    .panel { padding: 18px 14px; border-radius: 16px; }
-    .brand { margin-bottom: 18px; gap: 12px; }
-    .brand-logo { width: 46px; height: 46px; border-radius: 12px; }
-    .brand-logo svg { width: 26px; height: 26px; }
-    .brand h1 { font-size: 1.35rem; }
-    .brand p { font-size: 0.8rem; }
-
-    .field { flex-wrap: wrap; padding: 6px 8px 8px 12px; }
-    .field svg { display: none; }
-    #url { width: 100%; font-size: 1rem; padding: 10px 0 6px; }
-    .field button {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-
-    .modes { flex-wrap: wrap; }
-    .mode { flex: 1; text-align: center; padding: 9px 12px; }
-
-    .opt-row { grid-template-columns: 1fr; gap: 8px; }
-    .opt-name { font-size: 0.82rem; }
-    .colors { flex-wrap: wrap; gap: 14px; }
-    .slider-wrap { gap: 10px; }
-    input[type="range"] { height: 8px; }
-
-    .preview { padding: 14px; gap: 14px; }
-    .actions { flex-direction: column; gap: 10px; }
-    .btn { padding: 14px; }
-    .qr-meta { font-size: 0.74rem; }
-    .foot { font-size: 0.75rem; }
-    .toast { width: calc(100% - 32px); text-align: center; font-size: 0.85rem; }
-  }
 
   .label {
     display: block;
@@ -383,6 +343,52 @@
   }
 
   .foot b { color: var(--accent-2); font-weight: 600; }
+
+  /* Prevent grid children from forcing horizontal overflow */
+  .grid > * { min-width: 0; }
+  .opt-row { min-width: 0; }
+
+  /* ===== Responsive (kept last so it overrides the base rules above) ===== */
+  @media (max-width: 860px) {
+    .grid { grid-template-columns: 1fr; }
+    .preview { min-height: 0; order: -1; }
+  }
+
+  @media (max-width: 520px) {
+    body { padding: 16px 12px; justify-content: flex-start; }
+    .panel { padding: 18px 14px; border-radius: 16px; }
+    .brand { margin-bottom: 18px; gap: 12px; }
+    .brand-logo { width: 46px; height: 46px; border-radius: 12px; }
+    .brand-logo svg { width: 26px; height: 26px; }
+    .brand h1 { font-size: 1.35rem; }
+    .brand p { font-size: 0.8rem; }
+
+    .field { flex-wrap: wrap; padding: 6px 8px 8px 12px; }
+    .field svg { display: none; }
+    #url { width: 100%; font-size: 1rem; padding: 10px 0 6px; }
+    .field button {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .modes { flex-wrap: wrap; }
+    .mode { flex: 1; text-align: center; padding: 9px 12px; }
+
+    .opt-row { grid-template-columns: 1fr; gap: 8px; }
+    .opt-name { font-size: 0.82rem; }
+    .colors { flex-wrap: wrap; gap: 14px; }
+    .slider-wrap { gap: 10px; }
+    input[type="range"] { height: 8px; }
+
+    .preview { padding: 14px; gap: 14px; }
+    .actions { flex-direction: column; gap: 10px; }
+    .btn { padding: 14px; }
+    .qr-meta { font-size: 0.74rem; }
+    .foot { font-size: 0.75rem; }
+    .toast { width: calc(100% - 32px); text-align: center; font-size: 0.85rem; }
+  }
 </style>
 </head>
 <body>
